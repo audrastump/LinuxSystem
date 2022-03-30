@@ -23,23 +23,26 @@ using namespace std;
 		return this->contents.size();
 	}
 	int TextFile::write(std::vector<char> input) {
-		try {
+		//try {
 			this->contents = input;
-		}
+		/*}
 		catch (...) {
 			return 1;
 		}
-		return 0;
+		
+		*/
+			return 0;
+		
 	}
 	int TextFile::append(std::vector<char> input) {
-		try {
+		//try {
 			for (auto it = input.begin(); it != input.end(); it++) {
 				this->contents.push_back(*it);
 			}
-		}
-		catch (...) {
-			return 1;
-		}
+		//}
+		//catch (...) {
+		//	return 1;
+		//}
 		return 0;
 	}
 	

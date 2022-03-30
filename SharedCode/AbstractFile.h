@@ -7,11 +7,11 @@
 #include <string>
 class AbstractFile {
 public:
-	void read();
-	int write(std::vector<char>);
-	int append(std::vector<char>);
-	unsigned int getSize();
-	std::string getName();
+	virtual void read() = 0;
+	virtual int write(std::vector<char>) = 0;
+	virtual int append(std::vector<char>) = 0;
+	virtual unsigned int getSize() = 0;
+	virtual std::string getName() = 0;
 };
 
 

@@ -13,6 +13,7 @@ public:
 	int append(std::vector<char> input);
 	unsigned int getSize();
 	std::string getName();
+	
 private:
 	std::vector<char> contents;
 	std::string fileName;
