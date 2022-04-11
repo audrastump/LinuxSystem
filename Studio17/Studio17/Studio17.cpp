@@ -2,10 +2,19 @@
 //
 
 using namespace std;
-
+#include <vector>
+#include <iostream>
+#include "..\..\\SharedCode\ImageFile.h"
 
 int main()
 {
-	return 0;
+	ImageFile i("image1");
+	vector<char> v = { 'X', 'X', 'X', 'X', 'X', 'X', 'X','X', 'X', '3' };
+	i.write(v);
+	std::cout << i.getName() << endl;
+	std::cout<< i.getSize()<<endl;
+	i.read();
+
+
 }
 
