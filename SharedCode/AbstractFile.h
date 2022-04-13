@@ -7,6 +7,7 @@
 #include <string>
 class AbstractFile {
 public:
+	virtual ~AbstractFile() = default;
 	virtual void read() = 0;
 	virtual int write(std::vector<char>) = 0;
 	virtual int append(std::vector<char>) = 0;

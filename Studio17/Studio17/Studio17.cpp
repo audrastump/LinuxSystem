@@ -4,8 +4,9 @@
 using namespace std;
 #include <vector>
 #include <iostream>
-#include "..\..\\SharedCode\ImageFile.h"
 
+#include "..\..\\SharedCode\ImageFile.h"
+#include "..\..\\SharedCode\SimpleFileSystem.h"
 int main()
 {
 	ImageFile i("image1");
@@ -14,7 +15,7 @@ int main()
 	std::cout << i.getName() << endl;
 	std::cout<< i.getSize()<<endl;
 	i.read();
-
+	SimpleFileSystem s;
 
 }
 
