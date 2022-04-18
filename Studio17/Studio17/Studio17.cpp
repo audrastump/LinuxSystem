@@ -17,5 +17,16 @@ int main()
 	i.read();
 	SimpleFileSystem s;
 
+	AbstractFile* abstractfile = new ImageFile("rock");
+
+	cout << "Name: " << abstractfile->getName() << endl;
+	
+
+	vector<char> v2 = { 'X',' ','X',' ','X',' ','X',' ', 'X', '3' };
+	abstractfile->write(v2);
+	abstractfile->read();
+	cout << "Size: " << abstractfile->getSize() << endl;
+	return 0;
+
 }
 
