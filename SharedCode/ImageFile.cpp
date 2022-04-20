@@ -30,15 +30,10 @@ int ImageFile::write(std::vector<char> img) {
 int ImageFile::append(std::vector<char> img) {
 	return 3;
 }
-void ImageFile::read() {
-	for (int i = size-48; i >= 0; --i) {
-		for (int j = 0; j < size-48; ++j) {
-			int index = (size-48) * i + j;
-			if (index < contents.size()) {
-				std::cout << contents[index];
-			}
-			
-		}
-		std::cout<<""<<std::endl;
-	}
+std::vector<char> ImageFile::read() {
+	return this->contents;
+
+}
+void ImageFile::accept(AbstractFileVisitor* visitor) {
+	visitor->visit_ImageFile(this);
 }

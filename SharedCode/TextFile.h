@@ -8,12 +8,13 @@ class TextFile: public AbstractFile {
 std::string, and uses it to initialize the name member variable of your class.*/
 public:
 	TextFile::TextFile(std::string s);
-	void read();
+	std::vector<char> read();
 	int write(std::vector<char> input);
 	int append(std::vector<char> input);
 	unsigned int getSize();
 	std::string getName();
-	
+	//adding accept function 
+	virtual void accept(AbstractFileVisitor* a) override;
 private:
 	std::vector<char> contents;
 	std::string fileName;

@@ -10,14 +10,10 @@ using namespace std;
 	/*getSize returns the size of the vector<char> member variable
 
 	*/
-	void TextFile::read() {
+	vector<char> TextFile::read() {
 		
-		for (auto it = this->contents.begin(); it != this->contents.end(); it++) {
-			cout << *it;
-		}
+		return this->contents;
 		
-		
-
 	}
 	unsigned int TextFile::getSize() {
 		return this->contents.size();
@@ -48,4 +44,8 @@ using namespace std;
 	
 	std::string TextFile::getName() {
 		return this->fileName;
+	}
+	//takes in pointer and visits the text file
+	void TextFile::accept(AbstractFileVisitor* vis) {
+		vis->visit_TextFile(this);
 	}
