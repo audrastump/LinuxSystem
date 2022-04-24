@@ -15,8 +15,8 @@ protected:
 	void listCommands();
 	std::string prompt();
 private:
-	std::map <std::string, AbstractCommand*> m;
-	AbstractFileSystem* a;
-	AbstractFileFactory* f;
+	std::map <std::string, AbstractCommand*> commMap;
+	AbstractFileSystem* abFileSys;
+	AbstractFileFactory* fileFact;
 
 };

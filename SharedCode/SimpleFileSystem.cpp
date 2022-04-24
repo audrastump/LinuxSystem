@@ -6,16 +6,19 @@
 
 using namespace std;
 
-int SimpleFileSystem::addFile(std::string name, AbstractFile* a) {
-    if (fileMap.count(name) == 0) {
-        if (a != nullptr) {
-
-            fileMap.insert(std::pair<std::string, AbstractFile*>(name, a));
+int SimpleFileSystem::addFile(string name, AbstractFile* filePointer) {
+    if (fileMap.find(name) != fileMap.end()) { // file exists already
+        return 1;
+    }
+    else {
+        if (filePointer != nullptr) {
+            fileMap.insert({ name,filePointer });
+            return 0;
         }
         return 1;
     }
-    return 2;
 }
+
 int SimpleFileSystem::createFile(std::string name){
     bool pReached = false;
     std::string extension = "";
@@ -41,6 +44,8 @@ int SimpleFileSystem::createFile(std::string name){
     }
     return 1;
 }
+
+
 AbstractFile* SimpleFileSystem::openFile(string name){
     if(this->fileMap.count(name) >=1){
         if(this->openFiles.count(fileMap.at(name)) == 0){

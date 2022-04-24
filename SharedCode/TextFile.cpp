@@ -7,45 +7,36 @@ using namespace std;
 	TextFile::TextFile(std::string s) {
 		fileName = s;
 	}
-	/*getSize returns the size of the vector<char> member variable
-
-	*/
+	
 	vector<char> TextFile::read() {
 		
-		return this->contents;
+		return contents;
 		
 	}
 	unsigned int TextFile::getSize() {
-		return this->contents.size();
+		return (unsigned int)contents.size();
 	}
 	int TextFile::write(std::vector<char> input) {
-		//try {
-			this->contents = input;
-		/*}
-		catch (...) {
-			return 1;
-		}
 		
-		*/
-			return 0;
+		contents = input;
+		return 0;
 		
 	}
 	int TextFile::append(std::vector<char> input) {
-		//try {
-			for (auto it = input.begin(); it != input.end(); it++) {
-				this->contents.push_back(*it);
-			}
-		//}
-		//catch (...) {
-		//	return 1;
-		//}
+		
+		for (auto it = input.begin(); it != input.end(); it++) {
+			this->contents.push_back(*it);
+		}
+		
 		return 0;
 	}
 	
 	std::string TextFile::getName() {
-		return this->fileName;
+		return fileName;
 	}
 	//takes in pointer and visits the text file
 	void TextFile::accept(AbstractFileVisitor* vis) {
-		vis->visit_TextFile(this);
+		if (vis) {
+			vis->visit_TextFile(this);
+		}
 	}

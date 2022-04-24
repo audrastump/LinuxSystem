@@ -16,27 +16,7 @@ class is working as expected. As the answer to this question, describe the test 
 ran and if your TextFile class behaved as expected.
 	*/
 	
-
-	string s = "abcd";
-	std::vector<char> v(s.begin(), s.end());
-	string st = "name";
-	AbstractFile* afPoint = new TextFile(st);
-	
-	afPoint->write(v);
-
-	afPoint->read();
-
-	cout<<afPoint ->getSize()<<endl;
-	cout<<afPoint ->getName()<<endl;
-	string s2 = "efgh";
-	std::vector<char> v2(s2.begin(), s2.end());
-
-	afPoint->append(v2);
-	afPoint->read();
-
-	delete afPoint;
-
-	return 0;
+	std::vector<char> v = { 'h', 'i' };
 }
 
 

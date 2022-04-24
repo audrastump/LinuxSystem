@@ -1,83 +1,109 @@
 #include "CommandPrompt.h"
 #include <iostream>
+#include <string>
 #include <sstream>
-CommandPrompt::CommandPrompt(): a(nullptr), f(nullptr) {
+using namespace std;
+CommandPrompt::CommandPrompt(): abFileSys(nullptr), fileFact(nullptr) {
 
 }
 void CommandPrompt::setFileSystem(AbstractFileSystem* afs) {
-	a = afs;
+	this->abFileSys = afs;
 }
 void CommandPrompt::setFileFactory(AbstractFileFactory* aff) {
-	f = aff;
+	this->fileFact = aff;
 }
 int CommandPrompt::addCommand(std::string s, AbstractCommand* ac) {
-	std::pair<std::string, AbstractCommand*> stringPair(s, ac);
-	m.insert(stringPair);
+	std::pair<std::string, AbstractCommand*> newComm(s, ac);
+	commMap.insert(newComm);
 	return 0;
 }
 int CommandPrompt::run() {
-	bool userQuit = false;
+	string userInput = prompt();
+	if (userInput.compare("help") == 0) {
+		cout << "Possible commands: ";
+		listCommands();
+		return 2;
+	}
+	//if the user enters quit return nonzero val
+	if (userInput.compare("q") == 0) {
+		return 2;
+	}
+	//if the user enters help return nonzero value
 	
-	while (userQuit == false) {
-		std::string s = prompt();
-		if (s.compare("q") == 0) {
-			return 8;
+
+	//check to see if one word
+	bool single = true;
+	for (unsigned int index = 0; index < userInput.size(); ++index) {
+		if (userInput[index] == ' ') {
+			single = false;
 		}
-		else if (s.compare("help") == 0) {
-			listCommands();
+	}
+	//if one word
+	if (single==true) {
+		//find the user input in the map
+		auto newCommand = commMap.find(userInput);
+		//if the new command is not at the end
+		if (newCommand != commMap.end()) {
+			//we will see if the new command can execute
+			int executionSuccessVal = newCommand->second->execute(""); 
+			//if that works, return some nonzero value (need to change this )
+			if (executionSuccessVal == 0) {
+				return 2;
+			}
+			//otherwise output something 
+			else {
+				cout << "Erronous command!" << endl;
+			}
+		}
+		cout << "Could not find command" << endl;
+		return 2;
+	}
+
+	//if the input is nonsingular
+	istringstream iss;
+	iss.str(userInput);
+	//extract the first word
+	string word1;
+	iss >> word1;
+
+	//if help
+	if (word1.compare("help") == 0) {
+		//extract word 2
+		string word2;
+		iss >> word2;
+		//find word 2
+		auto newCommand = commMap.find(word2);
+		if (newCommand != commMap.end()) {
+			//display info
+			newCommand->second->displayInfo();
+			//return successs
+			return 10;
+		}
+
+		cout << "Could not find command" << endl;
+		return 2;
+	}
+
+	//get substring
+	string comm = userInput.substr(userInput.find(' ') + 1);
+
+	auto newComm = commMap.find(word1);
+	if (newComm != commMap.end()) {
+		int executionSuccessVal = newComm->second->execute(comm); //return execute's success or fail
+		if (executionSuccessVal == 0) {
+			return 1;
 		}
 		else {
-			if (s.find(" ") == std::string::npos){
-				if (m.count(s) != 0) {
-					
-					int key = m.find(s)->second->execute("");
-					if (key != 0) {
-						std::cout << "command failed" << std::endl;
-
-					}
-				}
-				else {
-					std::cout << "command not found" << std::endl;
-				}
-				
-
-			}
-			else {
-				std::istringstream iss(s);
-				std::string word1 = "";
-				std::string word2 = "";
-				iss >> word1 >> word2;
-				if (word1 == "help") {
-					if (m.count(s) != 0) {
-
-						m.find(s)->second->displayInfo();
-						
-					}
-					else {
-						std::cout << "command not found" << std::endl;
-					}
-				}
-				else {
-					if (m.count(s) != 0) {
-
-						int key = m.find(s)->second->execute(word2);
-						std::cout << key << std::endl;
-
-					}
-					else {
-						return 7;
-					}
-
-				}
-				
-			}
+			cout << "Error executing command" << endl;
 		}
-
 	}
+	cout << "Commad not found" << endl;
+	return 1;
+
 }
 
 void CommandPrompt::listCommands() {
-	for (auto it = m.begin(); it != m.end(); ++it) {
+	for (auto it = commMap.begin(); it != commMap.end(); ++it) {
 		std::cout << it->first << std::endl;
 	}
 }

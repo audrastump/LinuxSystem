@@ -5,6 +5,7 @@
 #include <iostream>
 using namespace std;
 
+
 void BasicDisplayVisitor::visit_TextFile(TextFile* textFile) {
 	vector<char> v = textFile->read();
 	for (auto it = v.begin(); it != v.end(); it++) {

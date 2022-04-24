@@ -1,22 +1,35 @@
 #include "TouchCommand.h"
 #include <iostream>
+#include "../SharedCode/PasswordProxy.h"
+#include <sstream>
+using namespace std;
 
 TouchCommand::TouchCommand(AbstractFileSystem*newAFS, AbstractFileFactory*newAFF): afs(newAFS), aff(newAFF) {
 
 }
 void TouchCommand::displayInfo() {
-	std::cout << "touch creates a file, touch can be invoked with the command touch <filename>" << std::endl;
+	cout << "touch creates a file, touch can be invoked with the command touch <filename>" << endl;
 }
 int TouchCommand::execute(std::string s) {
-	//AbstractFile* createFile(std::string argument) = 0;
-	AbstractFile* a = aff->createFile(s);
-	if (a == nullptr) {
-		return 8;
+
+	string name;
+	if (s.find_last_of('/') != string::npos) {
+		//Using the file name to create a new file
+		name = s.substr(s.find_last_of('/') + 1, string::npos);
 	}
-	int check = afs->addFile(s, a);
-	if (check != 0) {
-		delete a;
-		return check;
+	else {
+		name = s;
 	}
-	
+	AbstractFile* abFile = aff->createFile(name);
+	if (abFile == nullptr) { // file creation failed
+		cout << "Error creating the file" << endl;
+		return 2;
+	}
+	int result = afs->addFile(name,abFile);
+	if (result != 0) {
+		cout << "Error adding to file system" << endl;
+		delete abFile;
+		return 1;
+	}
+	return result;
 }
