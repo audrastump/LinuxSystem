@@ -5,7 +5,6 @@
 #include <iostream>
 using namespace std;
 
-
 void BasicDisplayVisitor::visit_TextFile(TextFile* textFile) {
 	vector<char> v = textFile->read();
 	for (auto it = v.begin(); it != v.end(); it++) {
@@ -14,15 +13,15 @@ void BasicDisplayVisitor::visit_TextFile(TextFile* textFile) {
 }
 void BasicDisplayVisitor::visit_ImageFile(ImageFile* imageFile) {
 	vector<char> v = imageFile->read();
-	for (int i = sqrt(v.size()); i >= 0; --i) {
-		for (int j = 0; j < sqrt(v.size()); ++j) {
-			int index = sqrt(v.size()) * i + j;
+	for (double i = sqrt(v.size()); i >= start; --i) {
+		for (double j = start; j < sqrt(v.size()); ++j) {
+			int index = static_cast <int>(sqrt(v.size()) * i + j);
 			if (index < v.size()) {
-				std::cout << v[index];
+				cout << v[index];
 			}
 
 		}
-		std::cout << "" << std::endl;
+		cout << "" << endl;
 	}
 }
 

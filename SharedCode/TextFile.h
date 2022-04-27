@@ -13,7 +13,7 @@ public:
 	virtual int append(std::vector<char> input);
 	virtual unsigned int getSize();
 	virtual std::string getName();
-	virtual void accept(AbstractFileVisitor* a) override;
+	virtual void accept(AbstractFileVisitor* a);
 private:
 //private instance variables of the contents and fileName
 	std::vector<char> contents;

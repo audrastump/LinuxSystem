@@ -7,15 +7,15 @@
 using namespace std;
 
 int SimpleFileSystem::addFile(string name, AbstractFile* filePointer) {
-    if (fileMap.find(name) != fileMap.end()) { // file exists already
-        return 1;
+    if (fileMap.find(name) != fileMap.end()) { 
+        return fileAlreadyExists;
     }
     else {
         if (filePointer != nullptr) {
             fileMap.insert({ name,filePointer });
-            return 0;
+            return successful;
         }
-        return 1;
+        return invalidFile;
     }
 }
 
@@ -30,25 +30,25 @@ int SimpleFileSystem::createFile(std::string name){
             pReached = true;
         }
     }
-    if(extension.compare("img") != 1){
+    if(extension.compare("img") != validCompare){
         AbstractFile* i = new ImageFile(name);
         pair<string, AbstractFile*> file (name, i);
         this->fileMap.insert(file);
-        return 0;
+        return successful;
     }
-    else if(extension.compare("txt") != 1){
+    else if(extension.compare("txt") != validCompare){
         AbstractFile* t = new TextFile(name);
         pair<string, AbstractFile*> file (name, t);
         this->fileMap.insert(file);
-        return 0;
+        return successful;
     }
-    return 1;
+    return invalidFile;
 }
 
 
 AbstractFile* SimpleFileSystem::openFile(string name){
-    if(this->fileMap.count(name) >=1){
-        if(this->openFiles.count(fileMap.at(name)) == 0){
+    if(this->fileMap.count(name) >=validCompare){
+        if(this->openFiles.count(fileMap.at(name)) == start){
             this->openFiles.insert(fileMap.at(name));
             return fileMap.at(name);
         }
@@ -57,28 +57,28 @@ AbstractFile* SimpleFileSystem::openFile(string name){
     return nullptr;
 }
 int SimpleFileSystem::closeFile(AbstractFile* f){
-    if (openFiles.count(f) >= 1) {
+    if (openFiles.count(f) >= validCompare) {
         auto it = openFiles.find(f);
         openFiles.erase(it);
-        return 0;
+        return successful;
     }
     else {
-        return 1;
+        return invalidFile;
     }
 }
 int SimpleFileSystem::deleteFile(std::string name) {
     if (fileMap.count(name)>=1){
         if (openFiles.count(fileMap.at(name))>=1) {
-            return 1;
+            return fileNotClosed;
         }
         else {
             delete fileMap.at(name);
             fileMap.erase(name);
-            return 0;
+            return successful;
         }
        
     }
     else {
-        return 1;
+        return invalidFile;
     }
 }

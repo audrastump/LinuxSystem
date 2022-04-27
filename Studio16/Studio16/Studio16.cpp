@@ -16,7 +16,14 @@ class is working as expected. As the answer to this question, describe the test 
 ran and if your TextFile class behaved as expected.
 	*/
 	
-	std::vector<char> v = { 'h', 'i' };
+	vector<char> v = { 'h', 'i' };
+
+	TextFile* t = new TextFile("test");
+	t->write(v);
+	cout << t->getSize() << endl;
+	cout << t->getName() << endl;
+
+
 }
 
 

@@ -19,7 +19,7 @@ using namespace std;
 	int TextFile::write(std::vector<char> input) {
 		
 		contents = input;
-		return 0;
+		return successful;
 		
 	}
 	int TextFile::append(std::vector<char> input) {
@@ -28,7 +28,7 @@ using namespace std;
 			this->contents.push_back(*it);
 		}
 		
-		return 0;
+		return successful;
 	}
 	
 	std::string TextFile::getName() {

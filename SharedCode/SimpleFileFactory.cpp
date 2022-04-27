@@ -10,14 +10,14 @@ AbstractFile* SimpleFileFactory::createFile(string nameFile) {
 	string afterDot = nameFile.substr(nameFile.find('.'));
 
 	//if this is a text file
-	if (afterDot.compare(".txt") == 0) {
+	if (afterDot.compare(".txt") == start) {
 		//we want to create a new text file pointer and return 
 		AbstractFile* txtFile = (new TextFile(nameFile));
 		return txtFile;
 	}
 
 	//if this is an image file
-	else if (afterDot.compare(".img") == 0) {
+	else if (afterDot.compare(".img") == start) {
 		//create new image file
 		AbstractFile* imgFile = (new ImageFile(nameFile));
 		return imgFile;
@@ -26,4 +26,3 @@ AbstractFile* SimpleFileFactory::createFile(string nameFile) {
 	//if neither, we will return a null pointer
 	return nullptr;
 }
-//******NEED TO GET RID OF createFile from AbstractFileSystem interface

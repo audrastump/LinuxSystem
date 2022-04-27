@@ -1,5 +1,22 @@
 #pragma once
+enum {
+	successful = 0,
+	start = 0,
+	invalidImage = 1,
+	validCompare = 1,
+	sizeDoesntMatch = 2,
+	errorAppending = 3, 
+	fileAlreadyExists = 4,
+	invalidFile = 5,
+	fileNotClosed = 6,
+	passwordMismatch =7,
+	userQuit = 8,
+	userHelp = 9,
+	executed = 10,
+	cantFindCommand = 11
 
+
+};
 // declare AbstractFile here. As all methods are virtual and will not be defined, no .cpp file is necessary
 #include <vector>
 #include "AbstractFileVisitor.h"

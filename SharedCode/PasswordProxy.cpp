@@ -37,7 +37,7 @@ int PasswordProxy::write(vector<char> vect) {
 		return file->write(vect);
 	}
 	else {
-		return 6;
+		return passwordMismatch;
 	}
 }
 
@@ -46,7 +46,7 @@ int PasswordProxy::append(vector<char> vect) {
 		return file->append(vect);
 	}
 	else {
-		return 6;
+		return passwordMismatch;
 	}
 }
 unsigned int PasswordProxy::getSize() {

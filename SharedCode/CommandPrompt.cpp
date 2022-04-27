@@ -15,25 +15,25 @@ void CommandPrompt::setFileFactory(AbstractFileFactory* aff) {
 int CommandPrompt::addCommand(std::string s, AbstractCommand* ac) {
 	std::pair<std::string, AbstractCommand*> newComm(s, ac);
 	commMap.insert(newComm);
-	return 0;
+	return successful;
 }
 int CommandPrompt::run() {
 	string userInput = prompt();
-	if (userInput.compare("help") == 0) {
+	if (userInput.compare("help") == start) {
 		cout << "Possible commands: ";
 		listCommands();
-		return 2;
+		return userHelp;
 	}
 	//if the user enters quit return nonzero val
-	if (userInput.compare("q") == 0) {
-		return 2;
+	if (userInput.compare("q") == start) {
+		return userQuit;
 	}
 	//if the user enters help return nonzero value
 	
 
 	//check to see if one word
 	bool single = true;
-	for (unsigned int index = 0; index < userInput.size(); ++index) {
+	for (unsigned int index = start; index < userInput.size(); ++index) {
 		if (userInput[index] == ' ') {
 			single = false;
 		}
@@ -47,8 +47,8 @@ int CommandPrompt::run() {
 			//we will see if the new command can execute
 			int executionSuccessVal = newCommand->second->execute(""); 
 			//if that works, return some nonzero value (need to change this )
-			if (executionSuccessVal == 0) {
-				return 2;
+			if (executionSuccessVal == start) {
+				return executed;
 			}
 			//otherwise output something 
 			else {
@@ -56,7 +56,7 @@ int CommandPrompt::run() {
 			}
 		}
 		cout << "Could not find command" << endl;
-		return 2;
+		return cantFindCommand;
 	}
 
 	//if the input is nonsingular
@@ -67,7 +67,7 @@ int CommandPrompt::run() {
 	iss >> word1;
 
 	//if help
-	if (word1.compare("help") == 0) {
+	if (word1.compare("help") == start) {
 		//extract word 2
 		string word2;
 		iss >> word2;
@@ -77,11 +77,11 @@ int CommandPrompt::run() {
 			//display info
 			newCommand->second->displayInfo();
 			//return successs
-			return 10;
+			return userHelp;
 		}
 
 		cout << "Could not find command" << endl;
-		return 2;
+		return cantFindCommand;
 	}
 
 	//get substring
@@ -90,15 +90,15 @@ int CommandPrompt::run() {
 	auto newComm = commMap.find(word1);
 	if (newComm != commMap.end()) {
 		int executionSuccessVal = newComm->second->execute(comm); //return execute's success or fail
-		if (executionSuccessVal == 0) {
-			return 1;
+		if (executionSuccessVal == start) {
+			return executed;
 		}
 		else {
 			cout << "Error executing command" << endl;
 		}
 	}
-	cout << "Commad not found" << endl;
-	return 1;
+	cout << "Command not found" << endl;
+	return cantFindCommand;
 
 }
 
