@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include "AbstractFileFactory.h"
+#include "AbstractFileSystem.h"
 class AbstractCommand {
 public: 
 	virtual ~AbstractCommand()=default;

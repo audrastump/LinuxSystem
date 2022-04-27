@@ -13,7 +13,8 @@ enum {
 	userQuit = 8,
 	userHelp = 9,
 	executed = 10,
-	cantFindCommand = 11
+	cantFindCommand = 11,
+	commandWorked = 12
 
 
 };

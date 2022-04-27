@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int SimpleFileSystem::addFile(string name, AbstractFile* filePointer) {
+int SimpleFileSystem::addFile(std::string name, AbstractFile* filePointer) {
     if (fileMap.find(name) != fileMap.end()) { 
         return fileAlreadyExists;
     }
@@ -19,34 +19,10 @@ int SimpleFileSystem::addFile(string name, AbstractFile* filePointer) {
     }
 }
 
-int SimpleFileSystem::createFile(std::string name){
-    bool pReached = false;
-    std::string extension = "";
-    for(auto it = name.begin(); it != name.end(); it++){
-        if(pReached){
-            extension += *it;
-        }
-        if(*it == '.') {
-            pReached = true;
-        }
-    }
-    if(extension.compare("img") != validCompare){
-        AbstractFile* i = new ImageFile(name);
-        pair<string, AbstractFile*> file (name, i);
-        this->fileMap.insert(file);
-        return successful;
-    }
-    else if(extension.compare("txt") != validCompare){
-        AbstractFile* t = new TextFile(name);
-        pair<string, AbstractFile*> file (name, t);
-        this->fileMap.insert(file);
-        return successful;
-    }
-    return invalidFile;
-}
 
 
-AbstractFile* SimpleFileSystem::openFile(string name){
+
+AbstractFile* SimpleFileSystem::openFile(std::string name){
     if(this->fileMap.count(name) >=validCompare){
         if(this->openFiles.count(fileMap.at(name)) == start){
             this->openFiles.insert(fileMap.at(name));
@@ -81,4 +57,15 @@ int SimpleFileSystem::deleteFile(std::string name) {
     else {
         return invalidFile;
     }
+}
+//implementation of the getFileNames (lab 5 part 1), which returns a set of all the names in our fileMap
+set<string> SimpleFileSystem::getFileNames() {
+    //declaring our set of fileNames, names
+    set<string> names;
+    //iterating through all the values in our file map
+    for (auto it = fileMap.begin(); it != fileMap.end(); ++it) {
+        //inserting each first value (the name) into our names set
+        names.insert(it->first);
+    }
+    return names;
 }
