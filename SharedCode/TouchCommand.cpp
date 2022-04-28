@@ -1,3 +1,10 @@
+#pragma once
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* TouchCommand.cpp
+* Contains the definitions for the TouchCommand class which provides methods for displaying the information on how to create a file,
+* executing the command asked from the user, and determining if the user wants to encrypt the file with a password
+*/
 #include "TouchCommand.h"
 #include <iostream>
 #include "../SharedCode/PasswordProxy.h"

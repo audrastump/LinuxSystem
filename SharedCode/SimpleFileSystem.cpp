@@ -1,4 +1,9 @@
-// define methods of SimpleFileSystem class here
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* SimpleFileSystem.cpp
+* Contains the definitions for the SimpleFileSYstem class which provides methods for the different types of files
+* such as adding, opening, closing, and deleting files, as well as listing the file names as a set that are currently in the system
+*/
 #include "SimpleFileSystem.h"
 #include "ImageFile.h"
 #include "TextFile.h"

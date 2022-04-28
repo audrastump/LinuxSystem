@@ -1,7 +1,8 @@
 #pragma once
 /*Audra Stump and David Buckley
-* LS Command header file
-* Contains declarations for the LS command class
+* Lab 5 - CSE 332
+* LSCommand.h
+* Contains declarations for the LS command class, including an execute command and a constructor and destructor
 */
 #include "AbstractFileFactory.h"
 #include "AbstractFileSystem.h"
