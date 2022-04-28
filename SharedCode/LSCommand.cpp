@@ -34,18 +34,19 @@ int LSCommand::execute(std::string command) {
 	}
 	//if there is no second word
 	else if (command.empty()) {
-		int count = 1;
+		int count = first;
 		for (string fileName : names) {
 
-			cout << setw(20) << " " << fileName;
-			if (count == 2) {
+			cout << setw(maxInput) << " " << fileName;
+			if (count == evenDivisor) {
 				cout << "" << endl;
-				count = 1;
+				count = first;
 			}
 			else {
 				++count;
 			}
 		}
+		return commandWorked;
 	}
 	else {
 		return cantFindCommand;

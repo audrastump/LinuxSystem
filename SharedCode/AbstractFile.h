@@ -1,7 +1,6 @@
 #pragma once
 enum {
 	successful = 0,
-	start = 0,
 	invalidImage = 1,
 	validCompare = 1,
 	sizeDoesntMatch = 2,
@@ -14,9 +13,17 @@ enum {
 	userHelp = 9,
 	executed = 10,
 	cantFindCommand = 11,
-	commandWorked = 12
+	commandWorked = 12,
+	invalidFileAddition = 13,
+	invalidTag = 14
 
 
+};
+enum {
+	start = 0,
+	first = 1,
+	evenDivisor = 2,
+	maxInput = 20
 };
 // declare AbstractFile here. As all methods are virtual and will not be defined, no .cpp file is necessary
 #include <vector>

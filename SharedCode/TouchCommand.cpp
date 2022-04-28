@@ -7,29 +7,70 @@ using namespace std;
 TouchCommand::TouchCommand(AbstractFileSystem*newAFS, AbstractFileFactory*newAFF): afs(newAFS), aff(newAFF) {
 
 }
+//usage function for displaying how to use the touch command method
 void TouchCommand::displayInfo() {
-	cout << "touch creates a file, touch can be invoked with the command touch <filename>" << endl;
+	cout << "Please enter either touch <filename> to create a file or touch <filename> -p to create a password protected file" << endl;
 }
-int TouchCommand::execute(std::string s) {
+int TouchCommand::execute(std::string inputString) {
+	//creating a input string stream to parse potential additional word
+	istringstream iss(inputString);
 
-	string name;
-	if (s.find_last_of('/') != string::npos) {
-		//Using the file name to create a new file
-		name = s.substr(s.find_last_of('/') + 1, string::npos);
+	//checking to see if there are one or two words
+	bool isSingularWord = true;
+	for (int i = start; i < inputString.size(); ++i) {
+		if (inputString[i] == ' ') {
+			isSingularWord = false;
+		}
 	}
-	else {
-		name = s;
+	//isn't using a password
+	if (isSingularWord) {
+		//creating a new file under the name given by the input string
+		AbstractFile* f = aff->createFile(inputString);
+		if (f == nullptr) {
+			return invalidFileAddition;
+		}
+		else {
+			if (afs->addFile(inputString, f) == successful) {
+				return commandWorked;
+			}
+			else {
+				return invalidFileAddition;
+			}
+		}
+		return invalidFileAddition;
 	}
-	AbstractFile* abFile = aff->createFile(name);
-	if (abFile == nullptr) { // file creation failed
-		cout << "Error creating the file" << endl;
-		return 2;
+	string fileName;
+	string tag;
+	string key;
+	//reading in our file name and password
+	if (iss >> fileName && iss >> tag) {
+		//making sure they entered -p
+		if (tag == "-p") {
+			cout << "Please enter password" << endl;
+			cin >> key;
+			//creating new file and passwordProxy
+			AbstractFile* file = aff->createFile(fileName);
+			PasswordProxy* pass = new PasswordProxy(file, key);
+			//if they entered a null file pointer return an error
+			if (file == nullptr) {
+				return invalidFileAddition;
+			}
+			else {
+				//try to add file to the file system 
+				if (afs->addFile(fileName, pass) == successful) {
+					return commandWorked;
+				}
+				else {
+					return invalidFileAddition;
+				}
+			}
+			return invalidFileAddition;	
+		}
+		//they entered something invalid as their second input
+		else {
+			return invalidTag;
+		}
+		
 	}
-	int result = afs->addFile(name,abFile);
-	if (result != 0) {
-		cout << "Error adding to file system" << endl;
-		delete abFile;
-		return 1;
-	}
-	return result;
+	return invalidFileAddition;
 }
