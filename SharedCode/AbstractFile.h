@@ -41,7 +41,7 @@ enum {
 	invalidCatCommand = 15,
 	catCommandSuccess = 16,
 	displayError = 17,
-	displaySuccess = 18
+	displaySuccess = 0
 
 
 };
