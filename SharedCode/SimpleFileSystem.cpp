@@ -4,6 +4,7 @@
 * Contains the definitions for the SimpleFileSYstem class which provides methods for the different types of files
 * such as adding, opening, closing, and deleting files, as well as listing the file names as a set that are currently in the system
 */
+#pragma once
 #include "SimpleFileSystem.h"
 #include "ImageFile.h"
 #include "TextFile.h"

@@ -37,7 +37,11 @@ enum {
 	cantFindCommand = 11,
 	commandWorked = 12, //command was successful
 	invalidFileAddition = 13, //addition of a new file failed
-	invalidTag = 14 //user entered an invalid input for indicating they want to create an encrypted file
+	invalidTag = 14, //user entered an invalid input for indicating they want to create an encrypted file
+	invalidCatCommand = 15,
+	catCommandSuccess = 16,
+	displayError = 17,
+	displaySuccess = 18
 
 
 };
