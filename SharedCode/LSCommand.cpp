@@ -52,4 +52,6 @@ int LSCommand::execute(std::string command) {
 		return cantFindCommand;
 	}
 }
-
+void LSCommand::displayInfo() {
+	cout << "ls lists files in the directory" << endl;
+}

@@ -14,6 +14,6 @@ class LSCommand : public AbstractCommand {
 public:
 	LSCommand(AbstractFileSystem* afs);
 	virtual int execute(std::string command) override;
-	
+	virtual void displayInfo() override;
 	virtual ~LSCommand() = default;
 };
