@@ -5,7 +5,6 @@
 * Contains the declarations for the AbstractFile class which provides methods for the different types of files
 * It also contains the enumerations for our program
 */
-// declare AbstractFile here. As all methods are virtual and will not be defined, no .cpp file is necessary
 #include <vector>
 #include "AbstractFileVisitor.h"
 #include <string>
@@ -45,7 +44,8 @@ enum {
 	displayError = 17,
 	displaySuccess = 0,
 	copyCommandError = 18,
-	copyCommandSuccess = 0
+	copyCommandSuccess = 0,
+	errorMacroCommand = 19
 
 
 };
