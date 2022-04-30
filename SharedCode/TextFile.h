@@ -14,6 +14,7 @@ public:
 	virtual unsigned int getSize();
 	virtual std::string getName();
 	virtual void accept(AbstractFileVisitor* a);
+	virtual AbstractFile* clone(std::string name) override;
 private:
 //private instance variables of the contents and fileName
 	std::vector<char> contents;

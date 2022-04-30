@@ -40,3 +40,8 @@ using namespace std;
 			vis->visit_TextFile(this);
 		}
 	}
+	AbstractFile* TextFile::clone(string name) {
+		AbstractFile* clonedFile = new TextFile(name);
+		clonedFile->write(this->read());
+		return clonedFile;
+	}

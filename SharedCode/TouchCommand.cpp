@@ -7,7 +7,7 @@
 */
 #include "TouchCommand.h"
 #include <iostream>
-#include "../SharedCode/PasswordProxy.h"
+#include "PasswordProxy.h"
 #include <sstream>
 using namespace std;
 

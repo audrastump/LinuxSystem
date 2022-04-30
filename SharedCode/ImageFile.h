@@ -16,5 +16,5 @@ public:
 	int append(std::vector<char> img);
 	//declaring accept interface to call the approproate visite method via pointer access
 	virtual void accept(AbstractFileVisitor* a) override;
-	
+	virtual AbstractFile* clone(std::string name) override;
 };

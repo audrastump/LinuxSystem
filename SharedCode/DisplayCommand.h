@@ -1,4 +1,10 @@
 #pragma once
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* DisplayCommand.h
+* Contains the declarations for the DisplayCommand class which inherits publicly from AbstractCommand and has a constructor, 
+* execute, and displayInfo method
+*/
 #include "AbstractFile.h"
 #include "AbstractFileFactory.h"
 #include "AbstractFileSystem.h"

@@ -61,6 +61,17 @@ string PasswordProxy::getName() {
 void PasswordProxy::accept(AbstractFileVisitor* visitor) {
 	if (passwordMatches(passwordPrompt())) {
 		file->accept(visitor);
-
 	}
+}
+
+
+AbstractFile* PasswordProxy::clone(string name) {
+
+	//new abstract file
+	AbstractFile* f = file->clone(name);
+
+	//creating password for file
+	AbstractFile* clonedAF = new PasswordProxy(f, passwordFile);
+
+	return clonedAF;
 }

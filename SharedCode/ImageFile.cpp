@@ -50,3 +50,9 @@ std::vector<char> ImageFile::read() {
 void ImageFile::accept(AbstractFileVisitor* visitor) {
 	visitor->visit_ImageFile(this);
 }
+
+AbstractFile* ImageFile::clone(string name) {
+	AbstractFile* clonedFile = new ImageFile(name);
+	clonedFile->write(this->read());
+	return clonedFile;
+}

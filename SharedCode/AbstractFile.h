@@ -20,6 +20,8 @@ public:
 	virtual std::string getName() = 0;
 	//added pure virtual abstract file visitor function
 	virtual void accept(AbstractFileVisitor* a) = 0;
+	//adding clone function
+	virtual AbstractFile* clone(std::string name) = 0;
 };
 //enums for the return values/errors
 enum {
@@ -39,9 +41,11 @@ enum {
 	invalidFileAddition = 13, //addition of a new file failed
 	invalidTag = 14, //user entered an invalid input for indicating they want to create an encrypted file
 	invalidCatCommand = 15,
-	catCommandSuccess = 16,
+	catCommandSuccess = 0,
 	displayError = 17,
-	displaySuccess = 0
+	displaySuccess = 0,
+	copyCommandError = 18,
+	copyCommandSuccess = 0
 
 
 };
