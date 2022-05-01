@@ -16,119 +16,138 @@ CatCommand::CatCommand(AbstractFileSystem* afs) : fileSystem(afs) {}
 void CatCommand::displayInfo() {
 	cout << "Append file with 'cat' then the file name then '-a' or write the file with 'cat' then the file name" << endl;
 }
-int CatCommand::execute(string userInput) {
-	//if the user input is empty, we want to let the user know and then display information
-	if (userInput.empty()) {
-		cout << "Empty cat parameters" << endl;
-		this->displayInfo();
-		return invalidCatCommand;
-	}
-	istringstream iss(userInput);
-	string name;
-	string totalInput;
+int CatCommand::execute(std::string s) {
+	//set up iss and parse input
+	istringstream iss(s);
+	string fileName;
 	string tag;
-	iss >> name;
+	iss >> fileName;
 	iss >> tag;
-	
-	AbstractFile* file = fileSystem->openFile(name);
+	string quit = ":q";
+	string saveQuit = ":wq";
+
+	AbstractFile* file = fileSystem->openFile(fileName);
+
+	//if file couldn't be opened
 	if (file == nullptr) {
-		cout << "Error in retrieving file" << endl;
 		fileSystem->closeFile(file);
 		return invalidCatCommand;
 	}
-	else if (!name.empty() && tag =="-a") {
-		AbstractFileVisitor* vis = new BasicDisplayVisitor();
-		file->accept(vis);
-		cout << "Input something to add to file, wq to save and quit, or q to quit" << endl;
-		bool isSaved = false;
-		bool userDidntQuit = true;
-		string inputString;
-		while (userDidntQuit) {
-			getline(cin, inputString);
-			//if the user wants to quit
-			if (inputString == ":q") {
-				userDidntQuit = false;
+
+	//check if appending
+	if (tag.compare("-a") == start) {
+		//first, print current contents
+		AbstractFileVisitor* visitor = new BasicDisplayVisitor();
+		file->accept(visitor);
+		cout << endl;
+
+		//instructions for user
+		cout << "input data to append to the file, \":wq\" to save and quit, or \":q\" to quit without saving" << endl;
+
+		string totalInput;
+		string curInput;
+		int res = start;
+
+		while (res == catCommandSuccess) { //will be false at end of input
+			//get input
+			getline(cin, curInput);
+
+			//check if quitting
+			if (curInput.compare(saveQuit) == start) {
+				res = catSaveandQuit;
 			}
-			//if the user wants to save and quit
-			else if (inputString == ":wq") {
-				userDidntQuit = false;
-				isSaved = true;
+			if (curInput.compare(quit) == start) {
+				res = catQuit;
 			}
-			//if the user hasn't quit yet then we want to appedn their input to the total 
-			else {
-				totalInput += inputString;
-				//resetting our input string 
-				inputString = "";
-			}
+
+			//if input is neither
+			totalInput += curInput + "\n";
+			curInput = "";
 		}
-		//if the user didn't save and quit
-		if (userDidntQuit == false && isSaved==false) {
-			cout << "Quit without saving" << endl;
+
+		//if quitting without saving
+		if (res == catQuit) {
 			fileSystem->closeFile(file);
 			return catCommandSuccess;
 		}
-		//if the user saved and quit
-		else {
-			vector<char> hold(totalInput.begin(), totalInput.end());
-			int appendResult = file->append(hold);
-			if (appendResult != successful) {
-				cout << "could not append to the file" << endl;
+
+		//if saving and quitting
+		else if (res == catSaveandQuit) {
+			//return an error if they try to append an image 
+
+			if (fileName.substr(fileName.find(".")).compare(".img") == start) {
+				fileSystem->closeFile(file);
 				return invalidCatCommand;
 			}
-			else {
-				cout << "Successfully appended input to file" << endl;
-				return catCommandSuccess;
-			}
-		}
 
+			else if (totalInput.size() > length) { 
+				//make string into vector of chars
+				vector<char> vect(totalInput.length() - length); 
+				//Removes the \n:wq\n
+				copy(totalInput.begin(), totalInput.end() - length, vect.begin()); 
+				if (file->append(vect) == successful) {
+					fileSystem->closeFile(file);
+					return catCommandSuccess;
+				}
+			}
+			return invalidCatCommand;
+		}
 	}
-	//if the name and tag are both empty - write file
-	else if(name=="" && tag =="") {
-		cout << "Writing: " << file->getName() << ". Please enter :wq to save and quit or just :q to quit without saving" << endl;
+
+	//if not saving and not quitting, we want to write the file
+	else {
+		cout << "Please input what you want to write to the file, ':wq' if you want to save and quit, or ':q' to quit without saving" << endl;
+
 		string userInput;
+		string currentLine;
+		unsigned int res = catCommandSuccess;
+
+		while (res == catCommandSuccess) { 
+
+			getline(cin, currentLine);
+
+			if (currentLine.compare(saveQuit) == start) {
+				res = catSaveandQuit;
+			
+			}
+			else if (currentLine.compare(quit) == start) {
+				res = catQuit;
 		
-		bool userQuit = false;
-		bool userSaved = false;
-		string totalInput;
-		while (!userQuit) {
-			getline(cin, userInput);
-			totalInput += userInput;
-			if (userInput == ":q") {
-				userSaved = false;
-				userQuit = true;
-			}
-			else if (userInput == ":wq") {
-				userSaved = true;
-				userQuit = true;
-			}
-			else {
-				//not super sure what to put here
-				totalInput += "\n";
 			}
 
+			//if input is neither
+			userInput += currentLine;
+			userInput += "\n";
+			currentLine.clear();
 		}
-		if (userQuit && userSaved) {
-			vector<char> hold(totalInput.begin(), totalInput.end());
-			if (file->write(hold) == successful) {
-				cout << "Successfully wrote to file" << endl;
-				return catCommandSuccess;
-			}
-			else {
-				cout << "Could not write to file" << endl;
-				return invalidCatCommand;
-			}
-		}
-		else if (userQuit && !userSaved) {
-			cout << "Exited without saving" << endl;
+
+		//if just quitting
+		if (res == catQuit) {
+			fileSystem->closeFile(file);
 			return catCommandSuccess;
 		}
 
-	}
-	else {
-		cout << "Invalid cat command" << endl;
-		fileSystem->closeFile(file);
-		return invalidCatCommand;
-	}
-	
+		//if saving and quitting
+		if (res == catSaveandQuit) {
+			//if user wrote something
+			if (userInput.size() > length) { 
+				vector<char> vect(userInput.length() - length); 
+				copy(userInput.begin(), userInput.end() - length, vect.begin()); 
+				//check to see if we were successfully able to write to the file
+				if (file->write(vect) == successful) {
+					fileSystem->closeFile(file);
 
+					return catCommandSuccess;
+				}
+				//otherwise we want to return an error
+				fileSystem->closeFile(file);
+				return invalidCatCommand;
+			}
+			return invalidCatCommand;
+			
+		}
+	}
+
+	fileSystem->closeFile(file);
+	return invalidCatCommand;
 }

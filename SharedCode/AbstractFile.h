@@ -45,7 +45,9 @@ enum {
 	displaySuccess = 0,
 	copyCommandError = 18,
 	copyCommandSuccess = 0,
-	errorMacroCommand = 19
+	errorMacroCommand = 19,
+	catSaveandQuit = 20,
+	catQuit = 21
 
 
 };
@@ -55,6 +57,7 @@ enum {
 	first = 1,
 	validCompare = 1,
 	evenDivisor = 2,
+	length = 5,
 	maxInput = 20
 };
 
