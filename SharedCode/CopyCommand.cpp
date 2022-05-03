@@ -13,6 +13,7 @@ int CopyCommand::execute(std::string command) {
 	iss >> newName;
 	set<string> fileSet;
 	fileSet = fileSys->getFileNames();
+	//if the original name doesn't already exist in the file set
 	if (fileSet.find(firstName) == fileSet.end()) {
 		return copyCommandError;
 	}

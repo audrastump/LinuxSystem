@@ -14,13 +14,15 @@ MacroCommand::MacroCommand(AbstractFileSystem* afs) : fileSys(afs), pStrat(nullp
 
 int MacroCommand::execute(std::string command) {
 	vector<string> commandParams = this->pStrat->parse(command);
-	for (int i = start; i < commandList.size(); ++i) {
-		if (commandList[i]->execute(command) != successful) {
+	int count = start;
+	for (const auto& command : this->commandList) {
+		if (command->execute(commandParams[count]) != successful) {
 			return errorMacroCommand;
 		}
-		
+		count++;
 	}
 	return successful;
+
 }
 void MacroCommand::addCommand(AbstractCommand* command) {
 	commandList.push_back(command);
