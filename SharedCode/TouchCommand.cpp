@@ -52,26 +52,27 @@ int TouchCommand::execute(std::string inputString) {
 	//reading in our file name and password
 	if (iss >> fileName && iss >> tag) {
 		//making sure they entered -p
-		if (tag == "-p") {
-			cout << "Please enter password" << endl;
-			cin >> key;
-			//creating new file and passwordProxy
-			AbstractFile* file = aff->createFile(fileName);
-			PasswordProxy* pass = new PasswordProxy(file, key);
-			//if they entered a null file pointer return an error
-			if (file == nullptr) {
-				return invalidFileAddition;
+		if (tag.compare("-p") == 0) {
+
+		
+			string newKeyword;
+			cout << "Please enter the password" << endl;
+			getline(cin, newKeyword);
+			AbstractFile* af = this->aff->createFile(fileName);
+			PasswordProxy* pp = new PasswordProxy(af, newKeyword);
+		
+			if (af == nullptr) {
+				delete af;
+				return cantFindCommand;
 			}
 			else {
-				//try to add file to the file system 
-				if (afs->addFile(fileName, pass) == successful) {
-					return commandWorked;
+				if (this->afs->addFile(fileName, pp) == 0) {
+					return successful;
 				}
 				else {
-					return invalidFileAddition;
+					return cantFindCommand;
 				}
 			}
-			return invalidFileAddition;	
 		}
 		//they entered something invalid as their second input
 		else {
