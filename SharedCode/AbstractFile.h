@@ -36,6 +36,7 @@ enum {
 	userHelp = 9, //user entered the help command
 	executed = 10,
 	cantFindCommand = 11,
+	commandDidntWork = 12,
 	commandWorked = 0, //command was successful
 	invalidFileAddition = 13, //addition of a new file failed
 	invalidTag = 14, //user entered an invalid input for indicating they want to create an encrypted file

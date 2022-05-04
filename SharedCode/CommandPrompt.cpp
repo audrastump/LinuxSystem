@@ -1,38 +1,54 @@
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* CommandPrompt.cpp
+* Contains the definitions for the SimpleFileSYstem class which provides methods for the different types of files
+* such as adding, opening, closing, and deleting files, as well as listing the file names as a set that are currently in the system
+*/
 #include "CommandPrompt.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 using namespace std;
+//constructor for command prompt which initializes our abstract file system and file factory
 CommandPrompt::CommandPrompt(): abFileSys(nullptr), fileFact(nullptr) {
 
-}
+}//setting our afs 
 void CommandPrompt::setFileSystem(AbstractFileSystem* afs) {
 	this->abFileSys = afs;
 }
+//setting our aff
 void CommandPrompt::setFileFactory(AbstractFileFactory* aff) {
 	this->fileFact = aff;
 }
+//adding a command to our our map of commands
+
 int CommandPrompt::addCommand(std::string s, AbstractCommand* ac) {
-	std::pair<std::string, AbstractCommand*> newComm(s, ac);
+	//creating a new string and abstract command pointer pair
+	std::pair<string, AbstractCommand*> newComm(s, ac);
+	//inserting the new command pair into the map
 	commMap.insert(newComm);
 	return successful;
 }
+
 int CommandPrompt::run() {
+	//prompting the user for input
 	string userInput = prompt();
+	//if the user asks for help
 	if (userInput.compare("help") == start) {
-		cout << "Possible commands: ";
+		cout << "No Problem. Here are your possible commands: ";
 		listCommands();
+		//return nonzero val
 		return userHelp;
 	}
 	//if the user enters quit return nonzero val
 	if (userInput.compare("q") == start) {
 		return userQuit;
 	}
-	//if the user enters help return nonzero value
 	
 
 	//check to see if one word
 	bool single = true;
+	//iterating through all userinput and seeing if there is any space anywhere
 	for (unsigned int index = start; index < userInput.size(); ++index) {
 		if (userInput[index] == ' ') {
 			single = false;
@@ -42,63 +58,82 @@ int CommandPrompt::run() {
 	if (single==true) {
 		//find the user input in the map
 		auto newCommand = commMap.find(userInput);
-		//if the new command is not at the end
+		//if the new command is somewhere in the map
 		if (newCommand != commMap.end()) {
 			//we will see if the new command can execute
 			int executionSuccessVal = newCommand->second->execute(""); 
-			//if that works, return some nonzero value (need to change this )
+			//if that works, return some nonzero value 
 			if (executionSuccessVal == start) {
 				return executed;
 			}
 			//otherwise output something 
 			else {
-				cout << "Erronous command!" << endl;
+				cout << "Command didn't work" << endl;
+				return commandDidntWork;
 			}
 		}
-		cout << "Could not find command" << endl;
-		return cantFindCommand;
+		//if the command didnt exist in the map
+		else {
+			cout << "Could not find command" << endl;
+			return cantFindCommand;
+		}
+		
 	}
+	else {
+		//if the input is nonsingular
+		istringstream iss(userInput);
+		//extract the first word
+		string firstWord;
+		iss >> firstWord;
 
-	//if the input is nonsingular
-	istringstream iss;
-	iss.str(userInput);
-	//extract the first word
-	string word1;
-	iss >> word1;
-
-	//if help
-	if (word1.compare("help") == start) {
-		//extract word 2
-		string word2;
-		iss >> word2;
-		//find word 2
-		auto newCommand = commMap.find(word2);
-		if (newCommand != commMap.end()) {
-			//display info
-			newCommand->second->displayInfo();
-			//return successs
-			return userHelp;
+		//if the user asks for help
+		if (firstWord.compare("help") == start) {
+			//extract word 2
+			string secondWord;
+			iss >> secondWord;
+			//find word 2
+			auto newCommand = commMap.find(secondWord);
+			if (newCommand != commMap.end()) {
+				//display info for the specified command
+				newCommand->second->displayInfo();
+				//return that the user asked for help
+				return userHelp;
+			}
+			else {
+				//otherwise we just want to report that the command was not found
+				cout << "Command not found." << endl;
+				return cantFindCommand;
+			}
+			
 		}
 
-		cout << "Could not find command" << endl;
-		return cantFindCommand;
-	}
-
-	//get substring
-	string comm = userInput.substr(userInput.find(' ') + 1);
-
-	auto newComm = commMap.find(word1);
-	if (newComm != commMap.end()) {
-		int executionSuccessVal = newComm->second->execute(comm); //return execute's success or fail
-		if (executionSuccessVal == start) {
-			return executed;
+		//we want to find the space then add one since we start at zero - this is where the prompt starts
+		string comm = userInput.substr(userInput.find(' ') + 1);
+		//creating an iterator to find the name
+		auto newComm = commMap.find(firstWord);
+		//if the iterator doesn't reach the end
+		if (newComm != commMap.end()) {
+			//executing the command name
+			int executionSuccessVal = newComm->second->execute(comm);
+			//if the execution was successful return a value indicating this
+			if (executionSuccessVal == successful) {
+				return executed;
+			}
+			else {
+				//otherwise we want to report that we had an error executing the command and return the error value
+				cout << "Error executing command" << endl;
+				return commandDidntWork;
+			}
 		}
 		else {
-			cout << "Error executing command" << endl;
+			//return that the command was not found and return a value indicating that 
+			cout << "Command not found" << endl;
+			return cantFindCommand;
 		}
+		
+		
 	}
-	cout << "Command not found" << endl;
-	return cantFindCommand;
+	
 
 }
 
@@ -108,7 +143,7 @@ void CommandPrompt::listCommands() {
 	}
 }
 std::string CommandPrompt::prompt(){
-	std::cout << "Please enter a valid command or q to quit, help for a list of commands, or help<command name> for details about a specific command" << std::endl;
+	std::cout << "Please enter a valid command or ':q' to quit, 'help' for a list of commands, or 'help <command name>' for details about a specific command" << std::endl;
 	std::cout << "$  ";
 	std::string input;
 	std::getline(std::cin, input);
