@@ -19,7 +19,7 @@ int MacroCommand::execute(std::string command) {
 		if (command->execute(commandParams[count]) != successful) {
 			return errorMacroCommand;
 		}
-		count++;
+		++count;
 	}
 	return successful;
 
