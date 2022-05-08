@@ -46,6 +46,7 @@ int LSCommand::execute(std::string command) {
 				++count;
 			}
 		}
+		cout << endl;
 		return commandWorked;
 	}
 	else {

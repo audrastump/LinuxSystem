@@ -3,7 +3,7 @@
 #include "../../SharedCode/SimpleFileSystem.h"
 #include "../../SharedCode/SimpleFileFactory.h"
 #include "../../SharedCode/CommandPrompt.h"
-
+#include "../../SharedCode/ImageFile.h"
 #include "../../SharedCode/LSCommand.h"
 #include "../../SharedCode/RemoveCommand.h"
 #include "../../SharedCode/TouchCommand.h"
@@ -50,6 +50,10 @@ int main() {
     cp->addCommand("rm", rm);
     cp->addCommand("rn", rn);
     cp->addCommand("touch+cat", tcat);
+    AbstractFile* i = new ImageFile("image1");
+    vector<char> v = { 'X', 'X', 'X', 'X', 'X', 'X', 'X','X', 'X', '3' };
+    i->write(v);
+    s->addFile("test.img", i);
     cp->run();
     return 0;
 }

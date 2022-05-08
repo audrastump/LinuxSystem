@@ -73,6 +73,11 @@ void ImageFile::accept(AbstractFileVisitor* visitor) {
 //creating a new cloned file and writing what the read returns from this file
 AbstractFile* ImageFile::clone(string name) {
 	AbstractFile* clonedFile = new ImageFile(name);
-	clonedFile->write(this->read());
+	vector<char> clone = this->read();
+	int s1 = trunc(sqrt(this->getSize()));
+	char s = s1 + '0';
+	clone.push_back(s);
+	cout << s << endl;
+	clonedFile->write(clone);
 	return clonedFile;
 }
