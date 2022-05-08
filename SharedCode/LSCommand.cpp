@@ -29,7 +29,7 @@ int LSCommand::execute(std::string command) {
 			fileSystem->closeFile(f);
 
 		}
-		cout << "" << endl;
+		
 		return commandWorked;
 	}
 	//if there is no second word

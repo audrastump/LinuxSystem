@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\SharedCode\TextFile.cpp" />
     <ClCompile Include="..\..\SharedCode\TouchCommand.cpp" />
     <ClCompile Include="Lab5.cpp" />
+    <ClCompile Include="TouchCatParsingStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\SharedCode\AbstractCommand.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="..\..\SharedCode\SimpleFileSystem.h" />
     <ClInclude Include="..\..\SharedCode\TextFile.h" />
     <ClInclude Include="..\..\SharedCode\TouchCommand.h" />
+    <ClInclude Include="TouchCatParsingStrategy.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
