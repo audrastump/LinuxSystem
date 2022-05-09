@@ -10,9 +10,12 @@
 #include "AbstractCommand.h"
 #include "AbstractParsingStrategy.h"
 using namespace std;
+//initializing al our macrocommand things 
 MacroCommand::MacroCommand(AbstractFileSystem* afs) : fileSys(afs), pStrat(nullptr) {}
 
+//executing macrocommand
 int MacroCommand::execute(std::string command) {
+
 	vector<string> commandParams = this->pStrat->parse(command);
 	int count = start;
 	for (const auto& command : this->commandList) {
