@@ -1,8 +1,7 @@
 /*Audra Stump and David Buckey
 * Lab 5 - CSE 332
 * CommandPrompt.cpp
-* Contains the definitions for the SimpleFileSYstem class which provides methods for the different types of files
-* such as adding, opening, closing, and deleting files, as well as listing the file names as a set that are currently in the system
+* Contains the definitions for the CommandPrompt class which prompts the user to enter different commands 
 */
 #include "CommandPrompt.h"
 #include <iostream>
@@ -114,8 +113,10 @@ int CommandPrompt::run() {
 			string comm = userInput.substr(userInput.find(' ') + 1);
 			//creating an iterator to find the name
 			auto newComm = commMap.find(firstWord);
+
 			//if the iterator doesn't reach the end
 			if (newComm != commMap.end()) {
+
 				//executing the command name
 				int executionSuccessVal = newComm->second->execute(comm);
 				//if the execution was successful return a value indicating this
@@ -141,12 +142,14 @@ int CommandPrompt::run() {
 	
 
 }
-
+//lists the commands
 void CommandPrompt::listCommands() {
+	//using iterator, iterates through command map and prints the first value for each command
 	for (auto it = commMap.begin(); it != commMap.end(); ++it) {
 		std::cout << it->first << std::endl;
 	}
 }
+//prompts the user for the command
 std::string CommandPrompt::prompt(){
 	std::cout << "Please enter a valid command or ':q' to quit, 'help' for a list of commands, or 'help <command name>' for details about a specific command" << std::endl;
 	std::cout << "$  ";
@@ -156,6 +159,3 @@ std::string CommandPrompt::prompt(){
 
 }
 
-	std::map <std::string, AbstractCommand*> m;
-	AbstractFileSystem* a;
-	AbstractFileFactory* f;

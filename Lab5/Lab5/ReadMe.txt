@@ -1,6 +1,7 @@
 Lab 5 Readme
 
-Audra Stump
+Audra Stump: Wrote some of the individaul methods including the MacroCommand, Touch Command, Remove, and LS Command. Mostly worked on getting
+the unit tests to pass correctly for each of the methods
 
 David Buckley: Wrote main method assisted in class with studios 16-21, helped debug issues with one of the commands and with the
 command prompt, wrote the additional MacroCommand(Touch+Cat), helped fix an issue with copying imagefiles so that

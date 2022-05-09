@@ -1,7 +1,7 @@
 /*Audra Stump and David Buckey
 * Lab 5 - CSE 332
-* CatCommand.h
-* Contains the declarations for the CatCommand class which inherits publicly from AbstractCommand
+* CatCommand.cpp
+* Contains the declarations for the CatCommand class which inherits publicly from AbstractCommand and prompts the user to write to the file or append to a file
 */
 #pragma once
 #include "AbstractFile.h"
@@ -39,7 +39,7 @@ int CatCommand::execute(std::string s) {
 		//first, print current contents
 		AbstractFileVisitor* visitor = new BasicDisplayVisitor();
 		file->accept(visitor);
-		cout << endl;
+		cout <<""<< endl;
 
 		//instructions for user
 		cout << "input data to append to the file, \":wq\" to save and quit, or \":q\" to quit without saving" << endl;
@@ -105,7 +105,7 @@ int CatCommand::execute(std::string s) {
 		while (res == catCommandSuccess) { 
 
 			getline(cin, currentLine);
-
+			//checking to see what the user inputted
 			if (currentLine.compare(saveQuit) == start) {
 				res = catSaveandQuit;
 			
@@ -115,13 +115,13 @@ int CatCommand::execute(std::string s) {
 		
 			}
 
-			//if input is neither
+			//if input is neither, clear the line
 			userInput += currentLine;
 			userInput += "\n";
 			currentLine.clear();
 		}
 
-		//if just quitting
+		//if just quitting, close the file and return success
 		if (res == catQuit) {
 			fileSystem->closeFile(file);
 			return catCommandSuccess;
@@ -129,14 +129,15 @@ int CatCommand::execute(std::string s) {
 
 		//if saving and quitting
 		if (res == catSaveandQuit) {
-			//if user wrote something
+			//if user wrote something, we will check tosee if it is greater than length
 			if (userInput.size() > length) { 
+				//chopping off the length if it is greater than what we want
 				vector<char> vect(userInput.length() - length); 
+				//copying things over
 				copy(userInput.begin(), userInput.end() - length, vect.begin()); 
 				//check to see if we were successfully able to write to the file
 				if (file->write(vect) == successful) {
 					fileSystem->closeFile(file);
-
 					return catCommandSuccess;
 				}
 				//otherwise we want to return an error

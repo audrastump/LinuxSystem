@@ -1,3 +1,8 @@
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* LSCommand.cpp
+* Contains the declarations for the LSCommand class which lists all our commands
+*/
 #include "../SharedCode/TouchCommand.h"
 #include "../SharedCode/AbstractFile.h"
 #include "../SharedCode/AbstractFileFactory.h"
@@ -35,11 +40,14 @@ int LSCommand::execute(std::string command) {
 	//if there is no second word
 	else if (command.empty()) {
 		int count = first;
+		//iterating through all our names
 		for (string fileName : names) {
-
+			//using setw for our max input (20)
 			cout << setw(maxInput) << " " << fileName;
+			//if the count is evenly divisible by 2
 			if (count == evenDivisor) {
 				cout << "" << endl;
+				//resetting the count
 				count = first;
 			}
 			else {
@@ -54,5 +62,5 @@ int LSCommand::execute(std::string command) {
 	}
 }
 void LSCommand::displayInfo() {
-	cout << "ls lists files in the directory" << endl;
+	cout << "Ls lists the files in the directory" << endl;
 }

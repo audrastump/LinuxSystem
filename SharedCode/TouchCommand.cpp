@@ -54,19 +54,21 @@ int TouchCommand::execute(std::string inputString) {
 		//making sure they entered -p
 		if (tag.compare("-p") == 0) {
 
-		
+			//requesting a new password
 			string newKeyword;
 			cout << "Please enter the password" << endl;
 			getline(cin, newKeyword);
+			//need to create a new abstract file pointer and new password proxy
 			AbstractFile* af = this->aff->createFile(fileName);
 			PasswordProxy* pp = new PasswordProxy(af, newKeyword);
-		
+			//if the abstract file is a nullptr then we need to delete it and return an error
 			if (af == nullptr) {
 				delete af;
 				return cantFindCommand;
 			}
+			//otherwise we will see if it returns successful and return zero if that happens
 			else {
-				if (this->afs->addFile(fileName, pp) == 0) {
+				if (this->afs->addFile(fileName, pp) == successful) {
 					return successful;
 				}
 				else {

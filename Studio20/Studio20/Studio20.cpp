@@ -11,18 +11,11 @@ using namespace std;
 
 int main() {
 
-	AbstractFile* realfile = new TextFile("file1.txt");
+	AbstractFile* f = new TextFile("file1.txt");
 	string password = "key";
 
-	PasswordProxy* pp = new PasswordProxy(realfile, password);
+	PasswordProxy* p = new PasswordProxy(f, password);
 	vector<char> v = { 'h', 'e','l','l','o'};
-
-	//valid password
-	cout << pp->write(v) << endl;
-
-	cout << (v.size()) << " = " << realfile->getSize() << endl;
-
-	cout << pp->read().size() << endl;
 
 	return 0;
 }

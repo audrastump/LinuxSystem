@@ -1,13 +1,15 @@
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* PasswordProxy.cpp
+* Contains the definitons for the PasswordProxy class 
+*/
+#pragma once
 #include "PasswordProxy.h"
 #include <iostream>
 using namespace std;
 //constructor that initilializes the file and its password 
 PasswordProxy::PasswordProxy(AbstractFile* file, string passwordFile) : file(file), passwordFile(passwordFile) {}
-//destructor for deleting the file 
-PasswordProxy::~PasswordProxy() {
-	delete file;
-}
-
+//password prompt assks for the new password and returns it
 string PasswordProxy::passwordPrompt() {
 	string passwordInput;
 	cout << "Please enter the password for this file " << endl;
@@ -15,34 +17,34 @@ string PasswordProxy::passwordPrompt() {
 	return passwordInput;
 }
 
-bool PasswordProxy::passwordMatches(std::string passwordInput) {
-
-	return !(passwordInput.compare(passwordFile));
-}
-
+//reads the password proxy 
 vector<char> PasswordProxy::read() {
-	vector<char> vect;
 	
-	if (passwordMatches(passwordPrompt())) {
+	//if there is a correct keyword we will read the file
+	if (correctKeyword(passwordPrompt())) {
 		return file->read();
 	}
 	else {
 		//returns empty vector if it doesn't match 
+		vector<char> vect;
 		return vect;
 	}
 }
-
+//writes the file with the vector inserted as the parameter
 int PasswordProxy::write(vector<char> vect) {
-	if (passwordMatches(passwordPrompt())) {
+	//if the correct ckeyword, it will write the file
+	if (correctKeyword(passwordPrompt())) {
 		return file->write(vect);
 	}
 	else {
+		//otherwise it will return an error
 		return passwordMismatch;
 	}
 }
-
+//appends the file with the vector parameter
 int PasswordProxy::append(vector<char> vect) {
-	if (passwordMatches(passwordPrompt())) {
+	//if there is a correct keyword, it appends
+	if (correctKeyword(passwordPrompt())) {
 		return file->append(vect);
 	}
 	else {
@@ -55,16 +57,13 @@ unsigned int PasswordProxy::getSize() {
 string PasswordProxy::getName() {
 	return file->getName();
 }
-
-
-
+//accepts file if keyword is correct
 void PasswordProxy::accept(AbstractFileVisitor* visitor) {
-	if (passwordMatches(passwordPrompt())) {
+	if (correctKeyword(passwordPrompt())) {
 		file->accept(visitor);
 	}
 }
-
-
+//clones file with name parameter
 AbstractFile* PasswordProxy::clone(string name) {
 
 	//new abstract file
@@ -74,4 +73,13 @@ AbstractFile* PasswordProxy::clone(string name) {
 	AbstractFile* clonedAF = new PasswordProxy(f, passwordFile);
 
 	return clonedAF;
+}
+//checks to see if the correct keyword was inserted
+bool PasswordProxy::correctKeyword(string passwordInput) {
+	if (passwordInput.compare(passwordFile) == successful){
+		return true;
+	}
+	else {
+		return false;
+	}
 }

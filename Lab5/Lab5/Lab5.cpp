@@ -1,3 +1,9 @@
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* Lab5.cpp
+* Contains the main method which runs through the program
+*/
+#pragma once
 #include "../../SharedCode/TextFile.h"
 #include "../../SharedCode/AbstractFile.h "
 #include "../../SharedCode/SimpleFileSystem.h"

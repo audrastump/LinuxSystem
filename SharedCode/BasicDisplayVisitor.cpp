@@ -13,7 +13,7 @@ using namespace std;
 void BasicDisplayVisitor::visit_TextFile(TextFile* textFile){
 	//we will read in the file and then iterate through it using an iterator. Then we will print 
 	vector<char> v = textFile->read();
-	for (auto it = v.begin(); it != v.end(); it++) {
+	for (auto it = v.begin(); it != v.end(); ++it) {
 		cout << *it; 
 	}
 }

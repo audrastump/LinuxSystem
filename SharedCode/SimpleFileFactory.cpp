@@ -1,4 +1,8 @@
-// studio 18 - simple file factory definitions
+/*Audra Stump and David Buckey
+* Lab 5 - CSE 332
+* SimpleFileFactory.cpp
+* Contains the definitions for the SimpleFileFactory class which provides definitions of methods for the factory pattern
+*/
 #include "TextFile.h"
 #include "ImageFile.h"
 #include "SimpleFileFactory.h"
