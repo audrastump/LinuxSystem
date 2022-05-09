@@ -76,7 +76,10 @@ int CommandPrompt::run() {
 			}
 			//if the command didnt exist in the map
 			else {
-				cout << "Could not find command" << endl;
+				if (userInput.compare("help") != start) {
+					cout << "Please enter a valid command" << endl;
+				}
+				
 				
 			}
 
@@ -103,7 +106,7 @@ int CommandPrompt::run() {
 				}
 				else {
 					//otherwise we just want to report that the command was not found
-					cout << "Command not found." << endl;
+					cout << "Command was not found." << endl;
 					
 				}
 
@@ -131,8 +134,9 @@ int CommandPrompt::run() {
 			}
 			else {
 				//return that the command was not found and return a value indicating that 
-				cout << "Command not found" << endl;
-				
+				if (firstWord.compare("help") != start) {
+					cout << "Command not found" << endl;
+				}
 			}
 
 
@@ -151,7 +155,7 @@ void CommandPrompt::listCommands() {
 }
 //prompts the user for the command
 std::string CommandPrompt::prompt(){
-	std::cout << "Please enter a valid command or ':q' to quit, 'help' for a list of commands, or 'help <command name>' for details about a specific command" << std::endl;
+	std::cout << "Either enter your command, ':q' to quit, 'help' for a list of commands, or 'help <command name>' for details about a specific command" << std::endl;
 	std::cout << "$  ";
 	std::string input;
 	std::getline(std::cin, input);
