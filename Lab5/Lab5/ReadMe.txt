@@ -29,7 +29,7 @@ on calls to cat and ds to this file. If touch + an invalid file is entered, it w
 user input replaces current input. if cat -a is called current file contents displayed and inputted text is appended. If :q
 is typed no changes are made to current file contents and if :wq is written file contents are saved. Cat will continue to add whatever
 the user types in until the user enters :q or :wq. Also, if the user types in cat + some invalid input or whitespace, the program catches the
-error and prints an error message
+error and prints an error message.
 
 6) ds works as intended - invalid files dont display. Also works with images test image file created in main as cat cant be used
 to write image files; test image displays in 3x3 grid with ds and with ds-d it displays in a line.

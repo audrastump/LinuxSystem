@@ -155,7 +155,7 @@ void CommandPrompt::listCommands() {
 }
 //prompts the user for the command
 std::string CommandPrompt::prompt(){
-	std::cout << "Either enter your command, ':q' to quit, 'help' for a list of commands, or 'help <command name>' for details about a specific command" << std::endl;
+	std::cout << "Either enter your command, 'q' to quit, 'help' for a list of commands, or 'help <command name>' for details about a specific command" << std::endl;
 	std::cout << "$  ";
 	std::string input;
 	std::getline(std::cin, input);
