@@ -49,6 +49,7 @@ int DisplayCommand::execute(string userInput) {
 
 		AbstractFileVisitor* vis = new BasicDisplayVisitor();
 		curFile->accept(vis);
+		cout << endl;
 		fileSys->closeFile(curFile);
 		return displaySuccess;
 	}
