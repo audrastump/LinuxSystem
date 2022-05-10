@@ -37,7 +37,7 @@ int CommandPrompt::run() {
 	while (run) {
 		string userInput = prompt();
 		if (userInput.compare("help") == start) {
-			cout << "No Problem. Here are your possible commands: ";
+			cout << "No Problem. Here are your possible commands: "<<endl;
 			listCommands();
 			//return nonzero val
 			

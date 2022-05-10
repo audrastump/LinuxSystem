@@ -16,7 +16,7 @@ public:
 	virtual void addCommand(AbstractCommand* command);
 	void setParseStrategy(AbstractParsingStrategy* aps);
 	virtual int execute(std::string s);
-	virtual void displayInfo();
+	virtual void displayInfo() override;
 private:
 	AbstractParsingStrategy* pStrat;
 	std::vector<AbstractCommand*> commandList;

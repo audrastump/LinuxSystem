@@ -41,5 +41,6 @@ void MacroCommand::setParseStrategy(AbstractParsingStrategy* curAPS) {
 }
 //usage message
 void MacroCommand::displayInfo() {
+	
 	cout << "Please enter 'mc' and your commands separated by a semicolon." << endl;
 }

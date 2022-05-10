@@ -47,5 +47,5 @@ int CopyCommand::execute(std::string command) {
 
 //usage function
 void CopyCommand::displayInfo() {
-	cout << "To copy files, please enter cp 'file' 'new name' " << endl;
+	cout << "To copy files, please enter cp 'file.txt' or 'file.img' then your 'file name (with no extension) " << endl;
 }

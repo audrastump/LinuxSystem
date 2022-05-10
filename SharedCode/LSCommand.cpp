@@ -9,7 +9,7 @@
 #include "../SharedCode/LSCommand.h"
 #include "MetadataDisplayVisitor.h"
 #include "AbstractFile.h"
-
+#include <sstream>
 #include <set>
 #include <iostream>
 #include <iomanip>
@@ -39,21 +39,22 @@ int LSCommand::execute(std::string command) {
 	}
 	//if there is no second word
 	else if (command.empty()) {
-		int count = first;
-		//iterating through all our names
-		for (string fileName : names) {
-			//using setw for our max input (20)
-			cout << setw(maxInput) << " " << fileName;
-			//if the count is evenly divisible by 2
-			if (count == evenDivisor) {
-				cout << "" << endl;
-				//resetting the count
-				count = first;
+		string names;
+		for (auto const& name : this->fileSystem->getFileNames()) {
+			names += name;
+			names += " ";
+		}
+		istringstream iss(names);
+		string word1; string word2;
+		while (iss >> word1) {
+			cout << setw(maxInput) << setiosflags(ios::left) << word1;
+			if (iss >> word2) {
+				cout << word2 << endl;
 			}
 			else {
-				++count;
+				cout <<""<< endl;
 			}
-		}
+		};
 		cout << endl;
 		return commandWorked;
 	}

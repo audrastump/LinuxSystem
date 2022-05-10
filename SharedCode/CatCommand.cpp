@@ -11,57 +11,50 @@
 #include "CatCommand.h"
 #include <sstream>
 using namespace std;
-//constructor initializes our file system variable
+
 CatCommand::CatCommand(AbstractFileSystem* afs) : fileSystem(afs) {}
+//display info gives our usage message for the function
 void CatCommand::displayInfo() {
-	cout << "Append file with 'cat' then the file name then '-a' or write the file with 'cat' then the file name" << endl;
+	cout << "Please enter 'cat' to add data to a file then the file name then '-a' or write the file with 'cat' then the file name" << endl;
 }
 int CatCommand::execute(std::string s) {
-	//set up iss and parse input
+	//finding the first and last string 
 	istringstream iss(s);
-	string fileName;
-	string tag;
+	string fileName; string tag;
 	iss >> fileName;
 	iss >> tag;
+	//creating constnats for save and save quit
 	string quit = ":q";
 	string saveQuit = ":wq";
 
 	AbstractFile* file = fileSystem->openFile(fileName);
-
-	//if file couldn't be opened
+	//check to see if the file is null, which means there was an error appending
 	if (file == nullptr) {
 		fileSystem->closeFile(file);
+		//returning an error message
 		return invalidCatCommand;
 	}
 
-	//check if appending
-	if (tag.compare("-a") == start) {
-		//first, print current contents
+	//if there is an "a " tag then we want to append
+	if (tag=="-a") {
+		
 		AbstractFileVisitor* visitor = new BasicDisplayVisitor();
 		file->accept(visitor);
 		cout <<""<< endl;
-
-		//instructions for user
-		cout << "input data to append to the file, \":wq\" to save and quit, or \":q\" to quit without saving" << endl;
-
+		cout << "Please enter something to append to the file or ':wq' to save and quit, or ':q' to quit" << endl;
 		string totalInput;
 		string curInput;
 		int res = start;
-
-		while (res == catCommandSuccess) { //will be false at end of input
-			//get input
+		//using a while loop to check for :wq and :q
+		while (res == catCommandSuccess) {
 			getline(cin, curInput);
-
-			//check if quitting
-			if (curInput.compare(saveQuit) == start) {
-				res = catSaveandQuit;
-			}
 			if (curInput.compare(quit) == start) {
 				res = catQuit;
 			}
-
-			//if input is neither
-			totalInput += curInput + "\n";
+			if (curInput.compare(saveQuit) == start) {
+				res = catSaveandQuit;
+			}
+			totalInput += curInput + '\n';
 			curInput = "";
 		}
 
@@ -70,7 +63,6 @@ int CatCommand::execute(std::string s) {
 			fileSystem->closeFile(file);
 			return catCommandSuccess;
 		}
-
 		//if saving and quitting
 		else if (res == catSaveandQuit) {
 			//return an error if they try to append an image 
@@ -79,25 +71,29 @@ int CatCommand::execute(std::string s) {
 				fileSystem->closeFile(file);
 				return invalidCatCommand;
 			}
-
+			//checking if there needs to be a chop
 			else if (totalInput.size() > length) { 
 				//make string into vector of chars
 				vector<char> vect(totalInput.length() - length); 
 				//Removes the \n:wq\n
 				copy(totalInput.begin(), totalInput.end() - length, vect.begin()); 
+				//checking for success in appenidng
 				if (file->append(vect) == successful) {
 					fileSystem->closeFile(file);
 					return catCommandSuccess;
+				}
+				else {
+					return invalidCatCommand;
 				}
 			}
 			return invalidCatCommand;
 		}
 	}
 
-	//if not saving and not quitting, we want to write the file
+
 	else {
 		cout << "Please input what you want to write to the file, ':wq' if you want to save and quit, or ':q' to quit without saving" << endl;
-
+		
 		string userInput;
 		string currentLine;
 		unsigned int res = catCommandSuccess;
@@ -105,7 +101,7 @@ int CatCommand::execute(std::string s) {
 		while (res == catCommandSuccess) { 
 
 			getline(cin, currentLine);
-			//checking to see what the user inputted
+			
 			if (currentLine.compare(saveQuit) == start) {
 				res = catSaveandQuit;
 			
@@ -116,12 +112,11 @@ int CatCommand::execute(std::string s) {
 			}
 
 			//if input is neither, clear the line
-			userInput += currentLine;
-			userInput += "\n";
+			userInput += currentLine + "\n";
 			currentLine.clear();
 		}
 
-		//if just quitting, close the file and return success
+		
 		if (res == catQuit) {
 			fileSystem->closeFile(file);
 			return catCommandSuccess;
@@ -139,6 +134,10 @@ int CatCommand::execute(std::string s) {
 				if (file->write(vect) == successful) {
 					fileSystem->closeFile(file);
 					return catCommandSuccess;
+				}
+				else {
+					fileSystem->closeFile(file);
+					return invalidCatCommand;
 				}
 				//otherwise we want to return an error
 				fileSystem->closeFile(file);

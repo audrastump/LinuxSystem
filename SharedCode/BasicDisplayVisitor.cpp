@@ -16,6 +16,7 @@ void BasicDisplayVisitor::visit_TextFile(TextFile* textFile){
 	for (auto it = v.begin(); it != v.end(); ++it) {
 		cout << *it; 
 	}
+	cout << "" << endl;
 }
 void BasicDisplayVisitor::visit_ImageFile(ImageFile* imageFile) {
 	//getting the size of the image file

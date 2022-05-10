@@ -32,5 +32,5 @@ int RemoveCommand::execute(std::string name) {
 }
 //gives a usage message about displaying the information
 void RemoveCommand::displayInfo() {
-	cout << "Enter the file name to delete it form your system" << endl;
+	cout << "Enter the file name (including extension) to delete it form your system" << endl;
 }
