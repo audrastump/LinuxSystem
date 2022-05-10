@@ -16,7 +16,7 @@ RemoveCommand::RemoveCommand(AbstractFileSystem* abFileSys) : fileSys(abFileSys)
 int RemoveCommand::execute(std::string name) {
 	//if it successfully deletes the file (returns zero), then we return zero
 	if (this->fileSys->deleteFile(name) == successful) {
-		cout << "File was deleted successfully" << endl;
+		
 		return successful;
 	}
 	//if the name is empty, we want to return invalid file

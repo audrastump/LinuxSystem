@@ -8,16 +8,29 @@
 #include "TextFile.h"
 #include "ImageFile.h"
 #include <iostream>
+#include <iomanip>
 //visits the textfile and prints the name and size
 void MetadataDisplayVisitor::visit_TextFile(TextFile* textFile) {
+	std::cout.width(10);
+	std::cout << std::left;
 	std::cout << textFile->getName() << " ";
+	std::cout.width(10);
+	std::cout << std::left;
 	std::cout << "text" << " ";
+	std::cout.width(10);
+	std::cout << std::left;
 	std::cout << textFile->getSize() << std::endl;
 	
 }
 //visits the image file and prints the name and size
 void MetadataDisplayVisitor::visit_ImageFile(ImageFile* imageFile) {
+	std::cout.width(10);
+	std::cout << std::left;
 	std::cout << imageFile->getName() << " ";
+	std::cout.width(10);
+	std::cout << std::left;
 	std::cout << "image" << " ";
+	std::cout.width(10);
+	std::cout << std::left;
 	std::cout << imageFile->getSize() << std::endl;
 }

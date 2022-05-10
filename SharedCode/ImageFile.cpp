@@ -77,7 +77,7 @@ AbstractFile* ImageFile::clone(string name) {
 	int s1 = trunc(sqrt(this->getSize()));
 	char s = s1 + '0';
 	clone.push_back(s);
-	cout << s << endl;
+	
 	clonedFile->write(clone);
 	return clonedFile;
 }
